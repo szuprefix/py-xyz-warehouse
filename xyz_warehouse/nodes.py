@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*- 
 # author = 'denishuang'
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 
 from xyz_util.datautils import str2dict
 from . import mixins, models
@@ -99,12 +99,12 @@ class Dict(BaseNode):
         ds = {}
         for d in Dictionary.objects.all():
             ds.update(d.structure)
-        print ds.keys()
+        print(ds.keys())
         for fn, dn in kws.iteritems():
             ps = fn.split(">")
             cfn = ps[0]
             nfn = ps[1] if len(ps) > 1 else "%s_name" % cfn
-            print cfn, nfn, dn
+            print(cfn, nfn, dn)
             d = ds[dn or fn]
             cases = d.get("cases")
             data[nfn] = data[cfn].apply(lambda x: cases.get(unicode(x)))

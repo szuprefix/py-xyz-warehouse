@@ -54,11 +54,11 @@ def ods_table_run_stat():
     from . import stat
     yesterday = dateutils.get_next_date(days=-1)
     for t in models.ODSTable.objects.all():
-        print t
+        print(t)
         try:
             if t.has_delete_action:
                 c = t.delete_disappear_records()
-                print "delete", c
+                print("delete", c)
             t.compare_and_sync(begin_time=yesterday)
             t.run_stat()
             stat.create_daily_result(t)

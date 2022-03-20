@@ -170,8 +170,8 @@ class Float(float):
 
 class Equation(object):
     """
-    e=Equation(u"坐席得分 = 老客资金续存率排名得分 * 0.2 + 新客资金规模排名得分 * 0.15 + 客均交易资金规模区间得分 * 0.1 + 话术通关得分 * 0.1 + 主管听录音得分 * 0.1")
-    e=Equation(u"排名得分规则 = Condition([0,0.1)=100;[0.1,0.2)=90;[0.2,0.3)=80;[0.3,0.5)=70;[0.5,0.7)=60;[0.7,1)=50)")
+    e=Equation("坐席得分 = 老客资金续存率排名得分 * 0.2 + 新客资金规模排名得分 * 0.15 + 客均交易资金规模区间得分 * 0.1 + 话术通关得分 * 0.1 + 主管听录音得分 * 0.1")
+    e=Equation("排名得分规则 = Condition([0,0.1)=100;[0.1,0.2)=90;[0.2,0.3)=80;[0.3,0.5)=70;[0.5,0.7)=60;[0.7,1)=50)")
     """
 
     def __init__(self, s):
@@ -210,7 +210,7 @@ class Equation(object):
                 op = e
                 c = e
             else:
-                c = is_numeric(e) and e or "%s[u'%s']" % (map_name, e)
+                c = is_numeric(e) and e or "%s['%s']" % (map_name, e)
             if e != "*" and op == "*":
                 tmp = pas[-2]
                 del pas[-2:]
@@ -227,7 +227,7 @@ class Equation(object):
 class Rule(object):
     """
 
-      rule=u'''近两月新客资金规模=近两月新客资金规模排名*Rank()
+      rule=u'''近两月新客资金规模排名=近两月新客资金规模*Rank()
       排名得分规则 = Condition([0,0.1)=100;[0.1,0.2)=90;[0.2,0.3)=80;[0.3,0.5)=70;[0.5,0.7)=60;[0.7,1)=50)
       老客资金续存率排名得分 = 近两月老客资金续存率排名 * 排名得分规则
       新客资金规模排名得分 = 近两月新客资金规模排名 * 排名得分规则
@@ -242,10 +242,10 @@ class Rule(object):
 
       r=Rule(rule)
 
-      d={u"最大保有额度":2000,u"排名":0.19}
+      d={"最大保有额度":2000,"排名":0.19}
       r.run(d)
 
-      df=pd.DataFrame({u"座席姓名":[u'斯文',u'家军',u'金城',u'灿城'],u"近两月新客资金规模排名":[0.08,0.1,0.7,0.99],u"近两个月月度话术通关得分区间":[100,80,60,100],u"近两月老客资金续存率排名":[0.1,0.5,0.9,1]})
+      df=pd.DataFrame({"座席姓名":['斯文','家军','金城','灿城'],"近两月新客资金规模排名":[0.08,0.1,0.7,0.99],"近两个月月度话术通关得分区间":[100,80,60,100],"近两月老客资金续存率排名":[0.1,0.5,0.9,1]})
       r.run(df)
     """
 
@@ -314,8 +314,8 @@ class Map(object):
         if output_field is None:
             output_field = df.columns[-1]
         input_fields = [c for c in df.columns if c != output_field]
-        conds = ' & '.join(["(x[u'%s'] == y[u'%s'])" % (i, i) for i in input_fields])
-        self.func_str = "lambda x,y: x.loc[%s][u'%s']" % (conds, output_field)
+        conds = ' & '.join(["(x['%s'] == y['%s'])" % (i, i) for i in input_fields])
+        self.func_str = "lambda x,y: x.loc[%s]['%s']" % (conds, output_field)
         self.func = eval(self.func_str)
         self.data = df
         self.output_field = output_field

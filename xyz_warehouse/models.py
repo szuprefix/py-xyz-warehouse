@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 
 from django.utils.functional import cached_property
 
@@ -363,7 +363,7 @@ class SelectExclude(CodeMixin, mixins.IORunable, models.Model):
             df = self.db.query(sql)
             if len(df) == 0 or df.loc[0][0] == 0:
                 ids.append(i)
-                print d
+                print(d)
         return data.loc[ids]
 
 
